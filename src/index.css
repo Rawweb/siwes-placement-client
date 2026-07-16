@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* brand greens, from the mockup */
+    --color-green-900: #0E3B26;
+    --color-green-700: #175E3F;
+    --color-green-100: #E4F0E9;
+
+    /* status colours, from the mockup badges */
+    --color-amber-600: #B97A1B;
+    --color-amber-100: #FBF0DC;
+    --color-red-600: #B3382E;
+    --color-red-100: #F9E4E2;
+
+    /* text */
+    --color-ink: #1C201E;
+    --color-ink-soft: #5A625E;
+
+    /* surfaces and lines */
+    --color-line: #DFE4E0;
+    --color-paper: #F7F8F6;
+    --color-card: #FFFFFF;
+  }
+
+  html,
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+}
