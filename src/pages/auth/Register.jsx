@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { registerRequest } from '../../api/auth.js';
 import { useAuth } from '../../hooks/useAuth.js';
+import { ANAMBRA_LGAS, STATE } from '../../utils/location/locations.js';
 
 // Dropdown options, kept here so the JSX stays clean.
 const courses = [
@@ -12,8 +13,6 @@ const courses = [
   'Mass Communication',
 ];
 const levels = ['300 Level', '400 Level', '500 Level', 'ND II', 'HND I'];
-const states = ['Anambra', 'Enugu', 'Lagos', 'Abuja (FCT)', 'Rivers'];
-const cities = ['Awka South', 'Awka North', 'Onitsha North', 'Nnewi North'];
 const disciplineOptions = [
   'Computer Science / IT',
   'Engineering',
@@ -33,16 +32,16 @@ export default function Register() {
   const [student, setStudent] = useState({
     courseOfStudy: courses[0],
     academicLevel: levels[0],
-    state: states[0],
-    city: cities[0],
+    state: STATE,
+    city: ANAMBRA_LGAS[0],
   });
 
   // Employer-only fields.
   const [employer, setEmployer] = useState({
     organisationName: '',
     disciplines: disciplineOptions[0],
-    state: states[0],
-    city: cities[0],
+    state: STATE,
+    city: ANAMBRA_LGAS[0],
     about: '',
   });
 
@@ -66,6 +65,9 @@ export default function Register() {
     if (role === 'student') {
       payload.studentProfile = student;
     } else {
+      // An employer is an organisation, so use its name as the account's
+      // full name. This satisfies the backend's required fullName field.
+      payload.fullName = employer.organisationName;
       // disciplines must be an array on the backend, so wrap the choice.
       payload.employerProfile = { ...employer, disciplines: [employer.disciplines] };
     }
@@ -169,16 +171,7 @@ export default function Register() {
               <div className='grid grid-cols-2 gap-3'>
                 <label className={labelClass}>
                   State
-                  <select
-                    name='state'
-                    value={student.state}
-                    onChange={handleStudent}
-                    className={inputClass}
-                  >
-                    {states.map((s) => (
-                      <option key={s}>{s}</option>
-                    ))}
-                  </select>
+                  <input value={STATE} disabled className={`${inputClass} opacity-70`} />
                 </label>
                 <label className={labelClass}>
                   City / LGA
@@ -188,7 +181,7 @@ export default function Register() {
                     onChange={handleStudent}
                     className={inputClass}
                   >
-                    {cities.map((c) => (
+                    {ANAMBRA_LGAS.map((c) => (
                       <option key={c}>{c}</option>
                     ))}
                   </select>
@@ -226,16 +219,7 @@ export default function Register() {
               <div className='grid grid-cols-2 gap-3'>
                 <label className={labelClass}>
                   State
-                  <select
-                    name='state'
-                    value={employer.state}
-                    onChange={handleEmployer}
-                    className={inputClass}
-                  >
-                    {states.map((s) => (
-                      <option key={s}>{s}</option>
-                    ))}
-                  </select>
+                  <input value={STATE} disabled className={`${inputClass} opacity-70`} />
                 </label>
                 <label className={labelClass}>
                   City / LGA
@@ -245,7 +229,7 @@ export default function Register() {
                     onChange={handleEmployer}
                     className={inputClass}
                   >
-                    {cities.map((c) => (
+                    {ANAMBRA_LGAS.map((c) => (
                       <option key={c}>{c}</option>
                     ))}
                   </select>

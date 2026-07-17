@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { browseOpportunities } from '../../api/opportunities.js';
-import { applyToOpportunity } from '../../api/applications.js';
+import { applyToOpportunity, getMyApplications } from '../../api/applications.js';
 import toast from 'react-hot-toast';
 import ConfirmDialog from '../../components/ui/ConfirmDialog.jsx';
+import { ANAMBRA_LGAS } from '../../utils/location/locations.js';
 
 // Filter dropdown options. "All" means no filter for that field.
 const disciplineOptions = [
@@ -13,7 +14,7 @@ const disciplineOptions = [
   'Sciences',
   'Accountancy',
 ];
-const stateOptions = ['All states', 'Anambra', 'Enugu', 'Lagos', 'Rivers'];
+const cityOptions = ['All locations', ...ANAMBRA_LGAS];
 
 export default function Browse() {
   const [opportunities, setOpportunities] = useState([]);
@@ -27,17 +28,16 @@ export default function Browse() {
 
   // The chosen filters. "All..." values mean no filter.
   const [discipline, setDiscipline] = useState('All disciplines');
-  const [state, setState] = useState('All states');
+  const [city, setCity] = useState('All locations');
 
   // Fetches openings using the current filters.
   const fetchOpportunities = async () => {
     setLoading(true);
     setError('');
 
-    // Build the filter object, sending only real choices, not "All...".
     const filters = {};
     if (discipline !== 'All disciplines') filters.discipline = discipline;
-    if (state !== 'All states') filters.state = state;
+    if (city !== 'All locations') filters.city = city;
 
     try {
       const res = await browseOpportunities(filters);
@@ -48,6 +48,26 @@ export default function Browse() {
       setLoading(false);
     }
   };
+
+  // Loads which openings the student has already applied to, so the
+  // "Applied" state persists across refreshes and page changes.
+  const loadAppliedIds = async () => {
+    try {
+      const res = await getMyApplications();
+      // Each application points to an opportunity; collect those ids.
+      const ids = res.data.applications.map((a) => a.opportunity?._id).filter(Boolean);
+      setAppliedIds(ids);
+    } catch {
+      // If this fails, buttons just start as "Apply"; not critical.
+    }
+  };
+
+  // On first load, fetch both openings and existing applications.
+  useEffect(() => {
+    fetchOpportunities();
+    loadAppliedIds();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Opening Apply just opens the confirmation for that opening.
   const askApply = (opp) => setConfirmTarget(opp);
@@ -102,9 +122,9 @@ export default function Browse() {
           </label>
           <label className={labelClass}>
             Location
-            <select value={state} onChange={(e) => setState(e.target.value)} className={inputClass}>
-              {stateOptions.map((s) => (
-                <option key={s}>{s}</option>
+            <select value={city} onChange={(e) => setCity(e.target.value)} className={inputClass}>
+              {cityOptions.map((c) => (
+                <option key={c}>{c}</option>
               ))}
             </select>
           </label>

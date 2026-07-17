@@ -2,13 +2,26 @@ import { Routes, Route } from 'react-router-dom';
 import PublicRoute from './components/PublicRoute.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import Placeholder from './pages/Placeholder.jsx';
+
 import NotFound from './pages/NotFound.jsx';
 import Landing from './pages/Landing.jsx';
+
 import Login from './pages/auth/Login.jsx';
 import Register from './pages/auth/Register.jsx';
+
 import StudentLayout from './components/StudentLayout.jsx';
 import Browse from './pages/student/Browse.jsx';
 import MyApplications from './pages/student/MyApplications.jsx';
+import Profile from './pages/student/Profile.jsx';
+
+import EmployerLayout from './components/EmployerLayout.jsx';
+import Dashboard from './pages/employer/Dashboard.jsx';
+import PostOpening from './pages/employer/PostOpening.jsx';
+import Applications from './pages/employer/Applications.jsx';
+
+import CoordinatorLayout from './components/CoordinatorLayout.jsx';
+import Overview from './pages/coordinator/Overview.jsx';
+import PlacementRecords from './pages/coordinator/PlacementRecords.jsx';
 
 export default function App() {
   return (
@@ -50,7 +63,7 @@ export default function App() {
       >
         <Route path='browse' element={<Browse />} />
         <Route path='applications' element={<MyApplications />} />
-        <Route path='profile' element={<Placeholder name='Student Profile' />} />
+        <Route path='profile' element={<Profile />} />
       </Route>
 
       {/* Employer area: guard and layout come when we build EmployerLayout. */}
@@ -58,13 +71,13 @@ export default function App() {
         path='/employer'
         element={
           <ProtectedRoute allowedRoles={['employer']}>
-            <Placeholder name='Employer Layout' />
+            <EmployerLayout />
           </ProtectedRoute>
         }
       >
-        <Route path='dashboard' element={<Placeholder name='Employer Dashboard' />} />
-        <Route path='post' element={<Placeholder name='Post Opening' />} />
-        <Route path='applications' element={<Placeholder name='Employer Applications' />} />
+        <Route path='dashboard' element={<Dashboard />} />
+        <Route path='post' element={<PostOpening />} />
+        <Route path='applications' element={<Applications />} />
       </Route>
 
       {/* Coordinator area: guard and layout come when we build CoordinatorLayout. */}
@@ -72,12 +85,12 @@ export default function App() {
         path='/coordinator'
         element={
           <ProtectedRoute allowedRoles={['coordinator']}>
-            <Placeholder name='Coordinator Layout' />
+            <CoordinatorLayout />
           </ProtectedRoute>
         }
       >
-        <Route path='overview' element={<Placeholder name='Coordinator Overview' />} />
-        <Route path='placements' element={<Placeholder name='Placement Records' />} />
+        <Route path='overview' element={<Overview />} />
+        <Route path='placements' element={<PlacementRecords />} />
       </Route>
 
       {/* Anything else: not found. */}
