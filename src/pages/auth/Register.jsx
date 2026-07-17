@@ -27,6 +27,7 @@ export default function Register() {
 
   // Shared fields.
   const [shared, setShared] = useState({ fullName: '', email: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Student-only fields, pre-filled with the first dropdown option.
   const [student, setStudent] = useState({
@@ -263,14 +264,25 @@ export default function Register() {
           </label>
           <label className={labelClass}>
             Password
-            <input
-              type='password'
-              name='password'
-              value={shared.password}
-              onChange={handleShared}
-              placeholder='At least 8 characters'
-              className={inputClass}
-            />
+            <div className='relative'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name='password'
+                value={shared.password}
+                onChange={handleShared}
+                placeholder='At least 8 characters'
+                className={`${inputClass} w-full pr-14`}
+              />
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
+                className='absolute inset-y-0 right-0 px-3 text-xs font-semibold text-[var(--color-green-700)]'
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </label>
 
           <button

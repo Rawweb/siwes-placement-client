@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { getMe, updateMyProfile } from '../../api/auth.js';
-import { STATE } from '../../utils/location/locations.js';
+import { ANAMBRA_LGAS, STATE } from '../../utils/location/locations.js';
 
 
 const courses = [

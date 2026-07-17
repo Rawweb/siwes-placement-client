@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth.js';
 export default function Login() {
   // One state object holding both fields.
   const [form, setForm] = useState({ email: '', password: '' });
+  const [showPassword, setShowPassword] = useState(false);
 
   // Tracks the request in progress and any error message.
   const [loading, setLoading] = useState(false);
@@ -78,14 +79,25 @@ export default function Login() {
 
           <label className='text-sm font-semibold text-[var(--color-ink)] flex flex-col gap-1'>
             Password
-            <input
-              type='password'
-              name='password'
-              value={form.password}
-              onChange={handleChange}
-              placeholder='********'
-              className='font-normal border border-[var(--color-line)] rounded-lg px-3 py-2.5 text-sm'
-            />
+            <div className='relative'>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name='password'
+                value={form.password}
+                onChange={handleChange}
+                placeholder='********'
+                className='w-full font-normal border border-[var(--color-line)] rounded-lg px-3 py-2.5 pr-14 text-sm'
+              />
+              <button
+                type='button'
+                onClick={() => setShowPassword(!showPassword)}
+                className='absolute inset-y-0 right-0 px-3 text-xs font-semibold text-[var(--color-green-700)]'
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+                aria-pressed={showPassword}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </label>
 
           <button

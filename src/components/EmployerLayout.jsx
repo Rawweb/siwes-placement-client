@@ -133,6 +133,15 @@ export default function EmployerLayout() {
               {item.short}
             </NavLink>
           ))}
+          <button
+            type='button'
+            onClick={handleLogout}
+            className='flex flex-col items-center gap-1 text-[10px] text-[#9FC3AE]'
+            aria-label='Log out'
+          >
+            <span className='text-lg' aria-hidden='true'>↪</span>
+            Log out
+          </button>
         </nav>
       </div>
     </div>
