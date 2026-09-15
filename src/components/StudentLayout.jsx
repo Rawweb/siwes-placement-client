@@ -29,7 +29,7 @@ export default function StudentLayout() {
   return (
     <div className='min-h-screen md:grid md:grid-cols-[230px_1fr] bg-[var(--color-paper)]'>
       {/* Sidebar: hidden on mobile, shown on desktop */}
-      <aside className='hidden md:flex flex-col gap-1 bg-[var(--color-green-900)] text-[#E9F1EC] p-4'>
+      <aside className='hidden md:flex md:sticky md:top-0 md:h-screen flex-col gap-1 bg-[var(--color-green-900)] text-[#E9F1EC] p-4 overflow-y-auto'>
         <div className='flex items-center gap-2 px-2 pb-4'>
           <div className='w-8 h-8 rounded-lg bg-[var(--color-green-700)] grid place-items-center text-white font-bold font-serif'>
             S
